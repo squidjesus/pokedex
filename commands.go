@@ -8,7 +8,7 @@ type CliCommand struct {
 
 func getCommands() map[string]CliCommand {
 
-	return map[string]CliCommand{
+	var commands = map[string]CliCommand{
 
 		"help": {
 			name:        "help",
@@ -24,8 +24,16 @@ func getCommands() map[string]CliCommand {
 
 		"map": {
 			name:        "map",
-			description: "Displays the next 20 locations",
-			callback:    commandMap,
+			description: "Display the next 20 location areas",
+			callback:    commandMapNext,
+		},
+
+		"mapb": {
+			name:        "mapb",
+			description: "Display the previous 20 location areas",
+			callback:    commandMapBack,
 		},
 	}
+
+	return commands
 }

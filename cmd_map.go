@@ -1,32 +1,48 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-
-	"github.com/squidjesus/pokedex/internal/pokeApi"
 )
 
-func commandMap(config *Config) error {
+func commandMapNext(cfg *Config) error {
 
-	url := config.mapNextUrl
+	if err := showMap(cfg, cfg.mapNextUrl); err != nil {
+		return err
+	}
 
-	response, err := pokeApi.MapReq(url)
+	return nil
+}
+
+func commandMapBack(cfg *Config) error {
+
+	if cfg.mapPrevUrl == nil {
+		return errors.New("you're on the first page\n")
+	}
+
+	if err := showMap(cfg, cfg.mapPrevUrl); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func showMap(cfg *Config, url *string) error {
+
+	// call the API
+	response, err := cfg.pokeapiClient.LocationReqest(url)
 	if err != nil {
-		return fmt.Errorf("Error calling pokeApi: %w", err)
+		return err
 	}
 
-	//update the 'next' and 'previous' urls
-	config.mapNextUrl = response.Next
-	if response.Previous != nil {
-		config.mapPrevUrl = *response.Previous
-	}
+	// update the 'next' and 'previous' urls
+	cfg.mapNextUrl = response.Next
+	cfg.mapPrevUrl = response.Previous
 
-	locationAreas := response.Results
-
-	for _, area := range locationAreas {
+	// print results
+	for _, area := range response.Results {
 		fmt.Println(area.Name)
 	}
 
 	return nil
-
 }

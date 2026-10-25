@@ -11,8 +11,8 @@ func commandHelp(config *Config) error {
 	fmt.Println()
 	fmt.Println("Usage:")
 	fmt.Println()
-	for _, cmd := range commands {
-		fmt.Printf("%s: %s\n", cmd.name, cmd.description)
+	for i := range commands {
+		fmt.Printf("%s: %s\n", commands[i].name, commands[i].description)
 	}
 	fmt.Println()
 	return nil

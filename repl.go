@@ -5,7 +5,16 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/squidjesus/pokedex/internal/pokeapi"
 )
+
+type Config struct {
+	commands      map[string]CliCommand
+	pokeapiClient pokeapi.Client
+	mapNextUrl    *string
+	mapPrevUrl    *string
+}
 
 func cleanInput(text string) []string {
 	lower := strings.ToLower(text)
