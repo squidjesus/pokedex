@@ -1,14 +1,14 @@
 package main
 
-type cliCommand struct {
+type CliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*Config) error
 }
 
-func getCommands() map[string]cliCommand {
+func getCommands() map[string]CliCommand {
 
-	var commands = map[string]cliCommand{
+	return map[string]CliCommand{
 
 		"help": {
 			name:        "help",
@@ -21,7 +21,11 @@ func getCommands() map[string]cliCommand {
 			description: "Exit the Pokedex",
 			callback:    commandExit,
 		},
-	}
 
-	return commands
+		"map": {
+			name:        "map",
+			description: "Displays the next 20 locations",
+			callback:    commandMap,
+		},
+	}
 }
