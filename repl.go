@@ -7,11 +7,13 @@ import (
 	"strings"
 
 	"github.com/squidjesus/pokedex/internal/pokeapi"
+	"github.com/squidjesus/pokedex/internal/pokecache"
 )
 
 type Config struct {
 	commands      map[string]CliCommand
 	pokeapiClient pokeapi.Client
+	pokeCache     pokecache.Cache
 	mapNextUrl    *string
 	mapPrevUrl    *string
 }
