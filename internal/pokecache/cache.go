@@ -17,7 +17,8 @@ type cacheEntry struct {
 
 func NewCache(interval time.Duration) Cache {
 	c := Cache{
-		entries: map[string]cacheEntry{},
+		entries: make(map[string]cacheEntry),
+		mu:      &sync.Mutex{},
 	}
 	go c.reapLoop(interval)
 	return c
@@ -46,11 +47,11 @@ func (c Cache) reapLoop(interval time.Duration) {
 	defer ticker.Stop()
 	for range ticker.C {
 		c.mu.Lock()
+		defer c.mu.Unlock()
 		for key := range c.entries {
 			if time.Since(c.entries[key].createdAt) > interval {
 				delete(c.entries, key)
 			}
 		}
-		c.mu.Unlock()
 	}
 }
