@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func commandMapNext(cfg *Config) error {
+func commandMapNext(cfg *Config, param *string) error {
 
 	if err := showMap(cfg, cfg.mapNextUrl); err != nil {
 		return err
@@ -14,7 +14,7 @@ func commandMapNext(cfg *Config) error {
 	return nil
 }
 
-func commandMapBack(cfg *Config) error {
+func commandMapBack(cfg *Config, param *string) error {
 
 	if cfg.mapPrevUrl == nil {
 		return errors.New("you're on the first page\n")

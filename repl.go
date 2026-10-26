@@ -34,9 +34,12 @@ func startRepl(cfg *Config) {
 		}
 		text := cleanInput(scanner.Text())
 		commandName := text[0]
-
+		param := ""
+		if len(text) > 1 {
+			param = text[1]
+		}
 		if command, ok := cfg.commands[commandName]; ok {
-			err := command.callback(cfg)
+			err := command.callback(cfg, &param)
 			if err != nil {
 				fmt.Printf("Error running command %s: %v", command.name, err)
 			}
