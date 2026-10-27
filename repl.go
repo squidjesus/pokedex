@@ -7,15 +7,14 @@ import (
 	"strings"
 
 	"github.com/squidjesus/pokedex/internal/pokeapi"
-	"github.com/squidjesus/pokedex/internal/pokecache"
 )
 
 type Config struct {
 	commands      map[string]CliCommand
 	pokeapiClient pokeapi.Client
-	pokeCache     pokecache.Cache
 	mapNextUrl    *string
 	mapPrevUrl    *string
+	caughtPokemon map[string]pokeapi.Pokemon
 }
 
 func cleanInput(text string) []string {
@@ -34,14 +33,14 @@ func startRepl(cfg *Config) {
 		}
 		text := cleanInput(scanner.Text())
 		commandName := text[0]
-		param := ""
+		args := []string{}
 		if len(text) > 1 {
-			param = text[1]
+			args = text[1:]
 		}
 		if command, ok := cfg.commands[commandName]; ok {
-			err := command.callback(cfg, &param)
+			err := command.callback(cfg, args...)
 			if err != nil {
-				fmt.Printf("Error running command %s: %v", command.name, err)
+				fmt.Println(err)
 			}
 		} else {
 			fmt.Println("Unknown command")

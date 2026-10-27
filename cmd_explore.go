@@ -1,13 +1,20 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 )
 
-func commandExplore(cfg *Config, areaName *string) error {
+func commandExplore(cfg *Config, args ...string) error {
 
-	fmt.Printf("Exploring %s...\n", *areaName)
-	response, err := cfg.pokeapiClient.LocDetailReq(*areaName)
+	if len(args) < 1 {
+		return errors.New("must include a location name")
+	}
+
+	areaName := args[0]
+
+	fmt.Printf("Exploring %s...\n", areaName)
+	response, err := cfg.pokeapiClient.LocDetailReq(areaName)
 
 	if err != nil {
 		fmt.Println(err)

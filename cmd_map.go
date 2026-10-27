@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func commandMapNext(cfg *Config, param *string) error {
+func commandMapNext(cfg *Config, args ...string) error {
 
 	if err := showMap(cfg, cfg.mapNextUrl); err != nil {
 		return err
@@ -14,7 +14,7 @@ func commandMapNext(cfg *Config, param *string) error {
 	return nil
 }
 
-func commandMapBack(cfg *Config, param *string) error {
+func commandMapBack(cfg *Config, args ...string) error {
 
 	if cfg.mapPrevUrl == nil {
 		return errors.New("you're on the first page\n")
@@ -41,7 +41,7 @@ func showMap(cfg *Config, url *string) error {
 
 	// print results
 	for _, area := range response.Results {
-		fmt.Println(area.Name)
+		fmt.Println(" - " + area.Name)
 	}
 
 	return nil

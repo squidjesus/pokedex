@@ -4,17 +4,15 @@ import (
 	"time"
 
 	"github.com/squidjesus/pokedex/internal/pokeapi"
-	"github.com/squidjesus/pokedex/internal/pokecache"
 )
 
 func main() {
-	pokeClient := pokeapi.NewClient(5 * time.Second)
-	pokeCache := pokecache.NewCache(5 * time.Second)
+	pokeClient := pokeapi.NewClient(5*time.Second, 5*time.Minute)
 
 	config := &Config{
 		commands:      getCommands(),
 		pokeapiClient: pokeClient,
-		pokeCache:     pokeCache,
+		caughtPokemon: map[string]pokeapi.Pokemon{},
 	}
 
 	startRepl(config)
