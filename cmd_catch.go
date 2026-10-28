@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand/v2"
+	"time"
 )
 
 func commandCatch(cfg *Config, args ...string) error {
@@ -12,19 +13,28 @@ func commandCatch(cfg *Config, args ...string) error {
 		return errors.New("must provide a pokemon name")
 	}
 
-	pokemon, err := cfg.pokeapiClient.PokeReq(args[0])
+	name := args[0]
+
+	pokemon, err := cfg.pokeapiClient.PokeReq(name)
 	if err != nil {
-		return err
+		return errors.New(name + " is not a valid pokemon")
 	}
 
-	fmt.Println("Throwing a Pokeball at " + pokemon.Name + "...")
+	fmt.Printf("Throwing a Pokeball at %s", pokemon.Name)
+	time.Sleep(500 * time.Millisecond)
+	fmt.Printf(".")
+	time.Sleep(500 * time.Millisecond)
+	fmt.Printf(".")
+	time.Sleep(500 * time.Millisecond)
+	fmt.Printf(".")
+	time.Sleep(500 * time.Millisecond)
 
 	if catchAttempt(pokemon.BaseExperience) {
-		fmt.Println(pokemon.Name + " was caught!")
+		fmt.Println(" " + pokemon.Name + " was caught!")
 		fmt.Println("You may now inspect it with the inspect command.")
 		cfg.caughtPokemon[pokemon.Name] = pokemon
 	} else {
-		fmt.Println(pokemon.Name + " escaped!")
+		fmt.Println(" " + pokemon.Name + " escaped!")
 	}
 	return err
 }

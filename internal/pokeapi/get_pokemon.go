@@ -2,7 +2,6 @@ package pokeapi
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 func (c Client) PokeReq(name string) (Pokemon, error) {
@@ -22,7 +21,6 @@ func (c Client) PokeReq(name string) (Pokemon, error) {
 	// Call the ApiRequest for a Pokemon type
 	pokemon, err := c.ApiRequest[Pokemon](url)
 	if err != nil {
-		fmt.Println(err)
 		return Pokemon{}, err
 	}
 

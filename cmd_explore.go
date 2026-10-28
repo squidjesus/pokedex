@@ -13,13 +13,11 @@ func commandExplore(cfg *Config, args ...string) error {
 
 	areaName := args[0]
 
-	fmt.Printf("Exploring %s...\n", areaName)
 	response, err := cfg.pokeapiClient.LocDetailReq(areaName)
-
 	if err != nil {
-		fmt.Println(err)
+		return errors.New("invalid location")
 	}
-
+	fmt.Printf("Exploring %s...\n", areaName)
 	fmt.Println("Found Pokemon:")
 	for _, encounter := range response.PokemonEncounters {
 
